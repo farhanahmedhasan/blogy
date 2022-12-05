@@ -5,7 +5,7 @@
             <div class="flex flex-1">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('post.index') }}">
+                    <a href="{{ route('posts.index') }}">
                         <img src="{{ asset('images/appLogo.svg') }}"
                             class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
@@ -60,6 +60,10 @@
                         <x-slot name="content">
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('posts.create')">
+                                {{ __('Create your post') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->
@@ -122,6 +126,10 @@
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                         </x-response-nav-link>
+
+                        <x-responsive-nav-link :href="route('posts.create')">
+                            {{ __('Create your post') }}
+                        </x-responsive-nav-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

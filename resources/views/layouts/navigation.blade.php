@@ -35,13 +35,10 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                @auth
+                @if (Auth::user())
                     <div class="h-12 w-12 bg-white rounded-full overflow-hidden">
                         <img class="h-full w-full object-cover" src="{{ asset('images/appLogo.svg') }}" alt="">
                     </div>
-                @endauth
-
-                @if (Auth::user())
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -59,6 +56,7 @@
                             </button>
                         </x-slot>
 
+
                         <x-slot name="content">
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
@@ -75,6 +73,20 @@
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
+
+
+                        @guest
+                            <x-slot name="content">
+                                <x-dropdown-link :href="route('register')">
+                                    {{ __('Register') }}
+                                </x-dropdown-link>
+
+                                <x-dropdown-link :href="route('login')">
+                                    {{ __('Login') }}
+                                </x-dropdown-link>
+
+                            </x-slot>
+                        @endguest
                     </x-dropdown>
                 @endif
             </div>
@@ -105,24 +117,37 @@
                     <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
+
+                <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('profile.edit')">
+                        {{ __('Profile') }}
+                        </x-response-nav-link>
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
+                </div>
             @endif
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                    </x-response-nav-link>
+            @guest
+                <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                        </x-response-nav-link>
 
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                            {{ __('Log Out') }}
+                        <x-responsive-nav-link :href="route('login')">
+                            {{ __('Login') }}
                         </x-responsive-nav-link>
-                    </form>
-            </div>
+                </div>
+            @endguest
+
         </div>
     </div>
 </nav>
